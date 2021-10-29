@@ -1,4 +1,3 @@
-
 # Library
 library(dplyr)
 library(readr)
@@ -26,21 +25,21 @@ books %>% select(Book_title, Type, Price, Rating) %>% filter(Type == 'Paperback'
 
 books %>% filter(Price < mean(Price, na.rm=TRUE)) %>% group_by(Type) %>% count(Type,sort=T)
 
-Page_plot <- books %>% mutate(Type = fct_lump(Type,n=5)) %>%  group_by(Type) %>%
+Rate_plot <- books %>% mutate(Type = fct_lump(Type,n=5)) %>%  group_by(Type) %>%
   summarise(Rating = mean(Rating, na.rm = TRUE))
 
-Page_plot <- Page_plot %>% ggplot(aes(x = fct_infreq(Type),y = Rating,fill=Type)) + 
+Rate_plot <- Rate_plot %>% ggplot(aes(x = fct_infreq(Type),y = Rating,fill=Type)) + 
   geom_bar(stat="identity") + geom_text(aes(label=Rating), vjust=2)
 
 
-Page_plot + ggtitle("Rating average of Type Book") + xlab("Type") + ylab("Rating average")
+Rate_plot + ggtitle("Rating average of Type Book") + xlab("Type") + ylab("Rating average")
 
 #GGPLOT2
 
-book_price_plot <- books %>% mutate(Type = fct_lump(Type,n=5)) %>% count(Type,sort = T)
+count_plot <- books %>% mutate(Type = fct_lump(Type,n=5)) %>% count(Type,sort = T)
 
-book_price_plot <- book_price_plot %>% ggplot(aes(x = fct_infreq(Type),y = n)) + 
+count_plot <- count_plot %>% ggplot(aes(x = fct_infreq(Type),y = n)) + 
   geom_line(size = 1) + geom_point(aes(color=Type), size=3) 
 
-book_price_plot + ggtitle("Count of Type Book") +
+count_plot + ggtitle("Count of Type Book") +
   xlab("Type") + ylab("Quantity")
